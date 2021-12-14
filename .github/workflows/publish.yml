@@ -82,7 +82,7 @@ jobs:
       fail-fast: false
     env:
       py: /opt/python/${{ matrix.pyver }}/bin/python
-      img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
+      img: quay.io/pypa/manylinux2014_aarch64
 
     steps:
       - uses: actions/checkout@v2
