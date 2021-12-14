@@ -91,25 +91,22 @@ jobs:
         id: qemu
         uses: docker/setup-qemu-action@v1
       
-      #- name: deps
-      #  run: |
-      #    docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-      #      ${{ env.img }} ${{ env.py }} -m pip install -U auditwheel pip wheel setuptools
-
-      - name: wheel
+      - name: Build wheel
         run: |
           docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-            ${{ env.img }} ${{ env.py }} setup.py bdist_wheel
-
-      - name: auditwheel
-        run: |
-          mv dist temp
-          docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-            ${{ env.img }} ${{ env.py }} -m auditwheel repair -w dist temp/*_aarch64.whl
+            ${{ env.img }} \
+            bash -exc '${{ env.py }} -m venv .env && \
+            source .env/bin/activate && \
+            python -m pip install -U auditwheel pip wheel setuptools && \
+            python setup.py bdist_wheel && \
+            mv dist temp && \
+            python -m auditwheel repair -w dist temp/*_aarch64.whl && \
+            deactivate'
 
       - name: list
         run: |
           ls -l dist/
+
       - name: upload
         uses: actions/upload-artifact@v2
         with:
