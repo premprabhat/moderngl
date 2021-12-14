@@ -91,10 +91,10 @@ jobs:
         id: qemu
         uses: docker/setup-qemu-action@v1
       
-      - name: deps
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-            ${{ env.img }} ${{ env.py }} -m pip install -U auditwheel pip wheel setuptools
+      #- name: deps
+      #  run: |
+      #    docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+      #      ${{ env.img }} ${{ env.py }} -m pip install -U auditwheel pip wheel setuptools
 
       - name: wheel
         run: |
