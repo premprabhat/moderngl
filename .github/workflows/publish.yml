@@ -72,12 +72,11 @@ jobs:
           path: "dist/*.whl"
 
   wheel_aarch64:
-    name: wheels for aarch64
-    runs-on: ${{ matrix.os }}
+    name: wheels for linux aarch64
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
         pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39, cp310-cp310]
       fail-fast: false
     env:
